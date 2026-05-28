@@ -81,6 +81,16 @@ export default function LoginPage() {
             </Link>
           </p>
         </form>
+
+        <div className="mt-6 bg-white rounded-2xl border border-gray-200 p-4 text-center">
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Demo Login</p>
+          <p className="text-sm text-gray-700">
+            <span className="text-gray-500">Email:</span> aryandemo@gmail.com
+          </p>
+          <p className="text-sm text-gray-700 mt-1">
+            <span className="text-gray-500">Password:</span> aryan03
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store";
+import { fetchAssignments } from "@/lib/slices/assignmentSlice";
 
 const navItems = [
   { label: "Home", href: "#", icon: "grid" },
@@ -50,6 +54,12 @@ function NavIcon({ type }: { type: string }) {
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const dispatch = useDispatch<AppDispatch>();
+  const assignmentCount = useSelector((state: RootState) => state.assignments.assignments.length);
+
+  useEffect(() => {
+    dispatch(fetchAssignments());
+  }, [dispatch]);
 
   return (
     <aside className="hidden lg:flex flex-col w-[220px] min-h-screen bg-[#f5f5f5] border-r border-gray-200 p-4">
@@ -64,7 +74,7 @@ export default function Sidebar() {
       {/* Create Assignment Button */}
       <Link
         href="/assignments/create"
-        className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full px-4 py-2.5 text-sm font-medium mb-6 hover:opacity-90 transition-opacity"
+        className="flex items-center justify-center gap-2 bg-gray-900 text-white rounded-full px-4 py-2.5 text-sm font-medium mb-6 hover:bg-gray-800 transition-colors"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -86,11 +96,16 @@ export default function Sidebar() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                 isActive
                   ? "bg-white font-semibold text-gray-900 shadow-sm"
-                  : "text-gray-600 hover:bg-white/60"
+                  : "text-gray-600 hover:bg-gray-200"
               }`}
             >
               <NavIcon type={item.icon} />
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {item.label === "Assignments" && (
+                <span className="min-w-[1.25rem] px-1.5 py-0.5 text-xs font-semibold tabular-nums text-center rounded-full bg-orange-500 text-white">
+                  {assignmentCount}
+                </span>
+              )}
             </Link>
           );
         })}
