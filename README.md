@@ -237,3 +237,6 @@ server/                         → Express backend
 | POST | `/api/assignments/:id/regenerate` | Regenerate the paper |
 
 All `/api/assignments` routes require a valid JWT token in the `Authorization: Bearer <token>` header.
+
+## Author 
+    Aryan Kamal 
