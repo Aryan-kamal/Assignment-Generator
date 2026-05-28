@@ -20,6 +20,7 @@ async function processGeneration(job: Job<JobData>) {
     if (!assignment) throw new Error("Assignment not found");
 
     const paperData = await generateQuestionPaper({
+      title: assignment.title,
       subject: assignment.subject,
       questionTypes: assignment.questionTypes,
       totalQuestions: assignment.totalQuestions,

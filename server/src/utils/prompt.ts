@@ -1,6 +1,7 @@
 import type { QuestionTypeInput } from "../types";
 
 interface PromptInput {
+  title: string;
   subject: string;
   questionTypes: QuestionTypeInput[];
   totalQuestions: number;
@@ -18,6 +19,7 @@ export function buildPrompt(input: PromptInput): string {
 
   return `You are an expert exam paper generator. Generate a structured question paper based on the following requirements.
 
+Topic / Title: ${input.title}
 Subject: ${input.subject}
 Total Questions: ${input.totalQuestions}
 Total Marks: ${input.totalMarks}
@@ -27,13 +29,15 @@ ${sectionDescriptions}
 
 ${input.additionalInstructions ? `Additional Instructions: ${input.additionalInstructions}` : ""}
 
-IMPORTANT: Return ONLY valid JSON matching this exact schema. No markdown, no code fences, no explanation.
+IMPORTANT: All questions MUST be specifically about "${input.title}". Do NOT generate generic questions. The title defines the exact topic.
+
+Return ONLY valid JSON matching this exact schema. No markdown, no code fences, no explanation.
 
 {
   "schoolName": "Dr. VSEC, Awadhpuri, Kanpur",
   "subject": "${input.subject}",
-  "className": "Class V",
-  "timeAllowed": "appropriate time",
+  "className": "Class/Grade",
+  "timeAllowed": "appropriate time based on question count",
   "maxMarks": ${input.totalMarks},
   "generalInstruction": "All questions are compulsory unless stated otherwise.",
   "sections": [
@@ -60,10 +64,11 @@ IMPORTANT: Return ONLY valid JSON matching this exact schema. No markdown, no co
 }
 
 Rules:
+- ALL questions must be specifically about "${input.title}" — this is the topic
 - Each section must have exactly the number of questions specified
 - Distribute difficulty: ~40% Easy, ~40% Moderate, ~20% Challenging
 - Marks per question must match the specification
-- Questions must be relevant to the subject
+- Questions must be relevant, specific, and well-crafted
 - Include an answer key for all questions
 - Return ONLY the JSON object, nothing else`;
 }

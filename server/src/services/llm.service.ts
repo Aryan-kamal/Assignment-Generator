@@ -10,6 +10,7 @@ const openrouter = new OpenAI({
 });
 
 interface GenerateInput {
+  title: string;
   subject: string;
   questionTypes: QuestionTypeInput[];
   totalQuestions: number;
