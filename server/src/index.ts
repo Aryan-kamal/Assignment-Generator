@@ -12,7 +12,7 @@ import assignmentRoutes from "./routes/assignment.routes";
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: env.CLIENT_URL }));
+app.use(cors({ origin: env.CLIENT_URL.replace(/\/+$/, ""), credentials: true }));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
